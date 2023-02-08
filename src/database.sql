@@ -3,7 +3,6 @@ USE blog;
 CREATE TABLE article (
     id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    category VARCHAR(30) NOT NULL,
     text VARCHAR(1000) NOT NULL,
     author VARCHAR(30) NOT NULL,
     view INT NOT NULL,
@@ -23,3 +22,20 @@ CREATE TABLE comment (
 );
 
 INSERT INTO comment (name, text, publication_date, id_article) VALUES ("lexa", "Super cet article", "2023-01-02", "1");
+
+CREATE TABLE category (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO category (name) VALUES ("actualité"), ("jeux-vidéos"), ("compétition"), ("astuce"), ("évenement");
+
+CREATE TABLE article_category (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    id_article INT NOT NULL,
+    FOREIGN KEY (id_article) REFERENCES article(id) ON DELETE CASCADE,
+    id_category INT NOT NULL,
+    FOREIGN KEY (id_category) REFERENCES category(id) ON DELETE CASCADE
+);
+
+INSERT INTO article_category (id_article, id_category) VALUES ("1", "1"), ("1","2");
