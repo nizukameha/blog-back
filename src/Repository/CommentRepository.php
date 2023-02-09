@@ -27,10 +27,30 @@ class CommentRepository {
         //Si la table n'est pas vide
         if ($result) {
             foreach ($result as $item) {
-                $comments[] = $item;
+                $comments[] = $this->sqlToComment($item);
             }
             return $comments;
         }
         return null;
     }
+
+    public function findById($id):?Comment {
+        $statement = $this->connection->prepare("SELECT * FROM comment WHERE id=:id");
+        $statement->bindValue("id", $id);
+        $statement->execute();
+        $result = $statement->fetch();
+        if ($result) {
+            return $this->sqlToComment($result);
+        }
+        return null;
+    }
+
+    private function sqlToComment(array $line):Comment {
+        $publicationDate = null;
+        if(isset($line['publication_date'])){
+            $publicationDate = new DateTime($line['publication_date']);
+        }
+        return new Comment($line['name'], $line['text'], $publicationDate, $line['id_article'], $line['id']);
+    }
+
 }
