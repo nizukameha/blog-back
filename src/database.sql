@@ -1,3 +1,4 @@
+DROP DATABASE blog;
 CREATE DATABASE blog;
 USE blog;
 CREATE TABLE article (
@@ -10,7 +11,7 @@ CREATE TABLE article (
     image VARCHAR(500) NOT NULL
 );
 
-INSERT INTO article (title, category, text, author, view, publication_date, image) VALUES ("Le premier article", "skate", "lorem ipsum", "lexa", "0", "2023-01-01", "https://www.slate.fr/sites/default/files/styles/1200x680/public/6_19.jpg");
+INSERT INTO article (title, text, author, view, publication_date, image) VALUES ("Le premier article", "lorem ipsum", "lexa", "0", "2023-01-01", "https://www.slate.fr/sites/default/files/styles/1200x680/public/6_19.jpg");
 
 CREATE TABLE comment (
     id INT PRIMARY KEY AUTO_INCREMENT,
