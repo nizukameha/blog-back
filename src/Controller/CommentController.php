@@ -29,5 +29,14 @@ class CommentController extends AbstractController {
         $comments = $this->repo->findAll();
         return $this->json($comments);
     }
+    
+    #[Route("/{id}", methods: 'GET')]
+    public function one(int $id) {
+        $comment = $this->repo->findById($id);
 
+        if ($comment) {
+            return $this->json($comment);
+        }
+        throw new NotFoundHttpException();
+    }
 }
