@@ -28,7 +28,7 @@ class ArticleController extends AbstractController {
     #[Route(methods: 'GET')]
     public function all() {
         $articles = $this->repo->findAll();
-        
+
         return $this->json($articles);
     }
 
@@ -76,5 +76,4 @@ class ArticleController extends AbstractController {
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
-
 }
