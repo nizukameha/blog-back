@@ -48,4 +48,30 @@ class CommentController extends AbstractController {
 
         return $this->json($comment, Response::HTTP_CREATED);
     }
+
+    #[Route('/{id}', methods: 'PUT')]
+    public function put(int $id, Request $request, SerializerInterface $serializer) {   
+        $comment = $this->repo->findById($id);
+        if(!$comment){
+            throw new NotFoundHttpException();
+        }
+
+        $commentToUpdate = $serializer->deserialize($request->getContent(), Comment::class, 'json');
+        $commentToUpdate->setId($id);
+        $this->repo->update($commentToUpdate);
+
+        return $this->json($commentToUpdate);
+    }
+
+    #[Route('/{id}', methods: 'DELETE')]
+    public function remove(int $id) {
+        $comment = $this->repo->findById($id);
+        if(!$comment){
+            throw new NotFoundHttpException();
+        }
+
+        $this->repo->delete($comment);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
