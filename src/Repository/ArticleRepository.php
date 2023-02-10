@@ -59,13 +59,14 @@ class ArticleRepository{
     }
 
     public function update(Article $article) {
-        $statement = $this->connection->prepare("INSERT INTO article (title, text, author, view, publication_date, image) VALUES (:title, :text, :author, :view, :publication_date, :image)");
+        $statement = $this->connection->prepare("UPDATE article SET title = :title, text = :text, author = :author, view = :view, publication_date = :publication_date, image = :image WHERE id=:id");
         $statement->bindValue("title", $article->getTitle());
         $statement->bindValue("text", $article->getText());
         $statement->bindValue("author", $article->getAuthor());
         $statement->bindValue("view", $article->getView());
         $statement->bindValue("publication_date", $article->getPublicationDate()->format("Y-m-d"));
         $statement->bindValue("image", $article->getImage());
+        $statement->bindValue("id", $article->getId(), PDO::PARAM_INT);
 
         $statement->execute();
     }
