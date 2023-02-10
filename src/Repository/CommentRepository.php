@@ -57,6 +57,24 @@ class CommentRepository {
         $comment->setId($this->connection->lastInsertId());
     }
 
+    public function update(Comment $comment) {
+        $statement = $this->connection->prepare("UPDATE comment SET name = :name, text = :text, publication_date = :publication_date, id_article = :id_article WHERE id=:id");
+        $statement->bindValue("name", $comment->getName());
+        $statement->bindValue("text", $comment->getText());
+        $statement->bindValue("publication_date", $comment->getPublicationDate()->format("Y-m-d"));
+        $statement->bindValue("id_article", $comment->getIdArticle());
+        $statement->bindValue("id", $comment->getId(), PDO::PARAM_INT);
+
+        $statement->execute();
+    }
+
+    public function delete(Comment $comment) {
+        $statement = $this->connection->prepare("DELETE FROM comment WHERE id=:id");
+        $statement->bindValue("id", $comment->getId());
+
+        $statement->execute();
+    }
+
     private function sqlToComment(array $line):Comment {
         $publicationDate = null;
         if(isset($line['publication_date'])){
