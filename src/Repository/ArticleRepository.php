@@ -34,10 +34,11 @@ class ArticleRepository{
     }
 
     public function findById($id):?Article {
-        $statement = $this->connection->prepare("SELECT * FROM comment WHERE id=:id");
+        $statement = $this->connection->prepare("SELECT * FROM article WHERE id=:id");
         $statement->bindValue("id", $id);
         $statement->execute();
         $result = $statement->fetch();
+
         if ($result) {
             return $this->sqlToArticle($result);
         }
@@ -51,8 +52,29 @@ class ArticleRepository{
         $statement->bindValue("view", $article->getView());
         $statement->bindValue("publication_date", $article->getPublicationDate()->format("Y-m-d"));
         $statement->bindValue("image", $article->getImage());
+
         $statement->execute();
+        
         $article->setId($this->connection->lastInsertId());
+    }
+
+    public function update(Article $article) {
+        $statement = $this->connection->prepare("INSERT INTO article (title, text, author, view, publication_date, image) VALUES(:title, :text, :author, :view, :publication_date, :image)");
+        $statement->bindValue("title", $article->getTitle());
+        $statement->bindValue("text", $article->getText());
+        $statement->bindValue("author", $article->getAuthor());
+        $statement->bindValue("view", $article->getView());
+        $statement->bindValue("publication_date", $article->getPublicationDate()->format("Y-m-d"));
+        $statement->bindValue("image", $article->getImage());
+
+        $statement->execute();
+    }
+
+    public function delete(Article $article) {
+        $statement = $this->connection->prepare("DELETE FROM article WHERE id=:id");
+        $statement->bindValue("id", $article->getId());
+
+        $statement->execute();
     }
 
     private function sqlToArticle (array $line) : Article{
