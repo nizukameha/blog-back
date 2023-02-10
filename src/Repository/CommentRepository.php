@@ -45,6 +45,18 @@ class CommentRepository {
         return null;
     }
 
+    public function persist(Comment $comment) {
+        $statement = $this->connection->prepare("INSERT INTO comment (name, text, publication_date, id_article) VALUES (:name, :text, :publication_date, :id_article)");
+        $statement->bindValue("name", $comment->getName());
+        $statement->bindValue("text", $comment->getText());
+        $statement->bindValue("publication_date", $comment->getPublicationDate()->format("Y-m-d"));
+        $statement->bindValue("id_article", $comment->getIdArticle());
+
+        $statement->execute();
+
+        $comment->setId($this->connection->lastInsertId());
+    }
+
     private function sqlToComment(array $line):Comment {
         $publicationDate = null;
         if(isset($line['publication_date'])){
