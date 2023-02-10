@@ -39,4 +39,13 @@ class CommentController extends AbstractController {
         }
         throw new NotFoundHttpException();
     }
+
+    #[Route(methods: 'POST')]
+    public function add(Request $request, SerializerInterface $serializer) {
+        
+        $comment = $serializer->deserialize($request->getContent(), Comment::class, 'json');
+        $this->repo->persist($comment);
+
+        return $this->json($comment, Response::HTTP_CREATED);
+    }
 }
