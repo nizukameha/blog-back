@@ -59,7 +59,7 @@ class ArticleRepository{
     }
 
     public function update(Article $article) {
-        $statement = $this->connection->prepare("INSERT INTO article (title, text, author, view, publication_date, image) VALUES(:title, :text, :author, :view, :publication_date, :image)");
+        $statement = $this->connection->prepare("INSERT INTO article (title, text, author, view, publication_date, image) VALUES (:title, :text, :author, :view, :publication_date, :image)");
         $statement->bindValue("title", $article->getTitle());
         $statement->bindValue("text", $article->getText());
         $statement->bindValue("author", $article->getAuthor());
