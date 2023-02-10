@@ -50,4 +50,19 @@ class ArticleController extends AbstractController {
         return $this->json($article, Response::HTTP_CREATED);
     }
 
+    #[Route('/{id}', methods: 'PUT')]
+    public function put(int $id, Request $request, SerializerInterface $serializer) {   
+        $article = $this->repo->findById($id);
+        if(!$article){
+            throw new NotFoundHttpException();
+        }
+
+        $articleToUpdate = $serializer->deserialize($request->getContent(), Article::class, 'json');
+        $articleToUpdate->setId($id);
+        $this->repo->update($articleToUpdate);
+
+        return $this->json($articleToUpdate);
+        
+    }
+
 }
