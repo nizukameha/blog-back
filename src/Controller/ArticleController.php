@@ -28,6 +28,7 @@ class ArticleController extends AbstractController {
     #[Route(methods: 'GET')]
     public function all() {
         $articles = $this->repo->findAll();
+        
         return $this->json($articles);
     }
 
@@ -62,7 +63,18 @@ class ArticleController extends AbstractController {
         $this->repo->update($articleToUpdate);
 
         return $this->json($articleToUpdate);
-        
+    }
+
+    #[Route('/{id}', methods: 'DELETE')]
+    public function remove(int $id) {
+        $article = $this->repo->findById($id);
+        if(!$article){
+            throw new NotFoundHttpException();
+        }
+
+        $this->repo->delete($article);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 
 }
