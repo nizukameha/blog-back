@@ -78,6 +78,18 @@ class ArticleRepository{
         $statement->execute();
     }
 
+    public function findByTitle($title):?Article {
+        $statement = $this->connection->prepare("SELECT * FROM article WHERE title LIKE :title");
+        $statement->bindValue("title", "%".$title."%",);
+        $statement->execute();
+        $result = $statement->fetch();
+
+        if ($result) {
+            return $this->sqlToArticle($result);
+        }
+        return null;
+    }
+
     private function sqlToArticle (array $line) : Article{
         $publicationDate = null;
         if(isset($line['publication_date'])) {

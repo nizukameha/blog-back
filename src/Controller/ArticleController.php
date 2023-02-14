@@ -76,4 +76,14 @@ class ArticleController extends AbstractController {
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route("/find/{title}", methods: 'GET')]
+    public function title(string $title) {
+        $article = $this->repo->findByTitle($title);
+
+        if ($article) {
+            return $this->json($article);
+        }
+        throw new NotFoundHttpException();
+    }
 }
