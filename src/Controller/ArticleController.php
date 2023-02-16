@@ -8,10 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 #[Route("/api/article")]
 class ArticleController extends AbstractController {
@@ -44,11 +46,21 @@ class ArticleController extends AbstractController {
 
     #[Route(methods: 'POST')]
     public function add(Request $request, SerializerInterface $serializer) {
-        
-        $article = $serializer->deserialize($request->getContent(), Article::class, 'json');
-        $this->repo->persist($article);
 
-        return $this->json($article, Response::HTTP_CREATED);
+        try {
+            $article = $serializer->deserialize($request->getContent(), Article::class, 'json');
+            
+            $article = $serializer->deserialize($request->getContent(), Article::class, 'json');
+            $this->repo->persist($article);
+
+            return $this->json($article, Response::HTTP_CREATED);
+
+        } catch (ValidationFailedException $e) {
+            return $this->json($e->getViolations(), Response::HTTP_BAD_REQUEST);
+        } catch (NotEncodableValueException $e) {
+            return $this->json('Invalid json', Response::HTTP_BAD_REQUEST);
+        }
+
     }
 
     #[Route('/{id}', methods: 'PUT')]
@@ -58,11 +70,19 @@ class ArticleController extends AbstractController {
             throw new NotFoundHttpException();
         }
 
-        $articleToUpdate = $serializer->deserialize($request->getContent(), Article::class, 'json');
-        $articleToUpdate->setId($id);
-        $this->repo->update($articleToUpdate);
+        try {
 
-        return $this->json($articleToUpdate);
+            $articleToUpdate = $serializer->deserialize($request->getContent(), Article::class, 'json');
+            $articleToUpdate->setId($id);
+            $this->repo->update($articleToUpdate);
+            
+            return $this->json($articleToUpdate);
+
+        } catch (ValidationFailedException $e) {
+            return $this->json($e->getViolations(), Response::HTTP_BAD_REQUEST);
+        } catch (NotEncodableValueException $e) {
+            return $this->json('Invalid json', Response::HTTP_BAD_REQUEST);
+        }
     }
 
     #[Route('/{id}', methods: 'DELETE')]
@@ -85,5 +105,5 @@ class ArticleController extends AbstractController {
             return $this->json($article);
         }
         throw new NotFoundHttpException();
-    }
+    }    
 }
