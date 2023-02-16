@@ -1,11 +1,24 @@
 <?php
 
 namespace App\Entities;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 
 class Article {
+	#[Assert\NotBlank]
+	private string $title;
+	#[Assert\NotBlank]
+	private string $text;
+	#[Assert\NotBlank]
+	private string $author;
+	#[Assert\NotBlank]
+	private int $view;
+	#[Assert\Date]
+	private DateTime $publicationDate;
+	#[Assert\NotBlank]
+	private string $image;
 
+	private ?int $id;
 	/**
 	 * @param string $title
 	 * @param string $text
@@ -15,7 +28,14 @@ class Article {
 	 * @param string $image
 	 * @param int|null $id
 	 */
-	public function __construct(private string $title, private string $text, private string $author, private int $view, private DateTime $publicationDate, private string $image, private ?int $id) {
+	public function __construct(string $title, string $text, string $author, int $view, DateTime $publicationDate, string $image, ?int $id) {
+		$this->id = $id;
+		$this->title = $title;
+		$this->text = $text;
+		$this->author = $author;
+		$this->view = $view;
+		$this->publicationDate = $publicationDate;
+		$this->image = $image;
 	}
 
 	/**
