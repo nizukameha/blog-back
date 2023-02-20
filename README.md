@@ -25,3 +25,7 @@ Les différents articles sont affichés sur la page d'accueil. Il n'y a pas de g
 ## Ajout possible
 
 Attribuer des catégories aux articles
+
+## Liens
+
+[Maquette](https://www.figma.com/file/HKhFOC0CAeaGgnNb7u39px/Untitled?node-id=0%3A1&t=wCPkybdjuJ9RnfJx-1)
