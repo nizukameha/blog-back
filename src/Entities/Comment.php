@@ -1,15 +1,20 @@
 <?php
 
 namespace App\Entities;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 
 class Comment {
 
+	#[Assert\NotBlank]
 	private string $name;
+	#[Assert\NotBlank]
 	private string $text;
+	#[Assert\Date]
 	private DateTime $publicationDate;
+	#[Assert\NotBlank]
 	private int $idArticle;
+	
 	private ?int $id;
 
     /**
