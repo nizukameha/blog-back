@@ -90,6 +90,13 @@ class ArticleRepository{
         return null;
     }
 
+    public function addView(Article $article) {
+        $statement = $this->connection->prepare("UPDATE article SET view=:view WHERE id=:id");
+        $statement->bindValue("view", $article->getView() + 1);
+        $statement->bindValue("id", $article->getId(), PDO::PARAM_INT);
+        $statement->execute();
+    }
+
     private function sqlToArticle (array $line) : Article{
         $publicationDate = null;
         if(isset($line['publication_date'])) {
