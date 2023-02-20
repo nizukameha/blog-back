@@ -37,7 +37,7 @@ class ArticleController extends AbstractController {
     #[Route("/{id}", methods: 'GET')]
     public function one(int $id) {
         $article = $this->repo->findById($id);
-
+        $this->repo->addView($article);
         if ($article) {
             return $this->json($article);
         }
@@ -71,7 +71,6 @@ class ArticleController extends AbstractController {
         }
 
         try {
-
             $articleToUpdate = $serializer->deserialize($request->getContent(), Article::class, 'json');
             $articleToUpdate->setId($id);
             $this->repo->update($articleToUpdate);
