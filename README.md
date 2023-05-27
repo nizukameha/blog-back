@@ -1,31 +1,31 @@
 # Blog
 
-Ce projet a été réalisé lors de ma formation : [Développeur et Développeur Web Mobile](https://simplon.co/formation/developpeur-web-et-web-mobile/11) de Simplon. Le blog a été réalisé avec React et Next.js pour la partie front et Symfony pour la partie back
+This project was developed during my studies at [Simplon](https://simplon.co/formation/developpeur-web-et-web-mobile/11). The blog was created using React and Next.js for the frontend and Symfony for the backend.
 
-## Fonctionnalités
+## Features
 
-Les différents articles sont affichés sur la page d'accueil. Il n'y a pas de gestion d'utilisateurs, tout le monde peut ajouter/supprimer/éditer un article ; poster/supprimer un commentaire. Il y a un compteur de vue pour chaque article et une barre de recherche.
+The different articles are displayed on the homepage. There is no user management, anyone can add/remove/edit an article or post/delete a comment. Each article has a view counter, and there is a search bar.
 
-## Aspects techniques
+## Technical Aspects
 ### Front
-- Router de Next
+- Next Router
 - Props
-- Pages et Composants
+- Pages and Components
 - Interfaces
-- Requetes vers l'API Rest
-- Responsive
+- REST API Requests
+- Responsive Design
 
 ### Back
-- Entité
+- Entity
 - Repository
 - Controller
-- API Rest
-- Script SQL
+- REST API
+- SQL Script
 
-## Ajout possible
+## Possible Additions
 
-Attribuer des catégories aux articles
+Adding categories to articles
 
-## Liens
+## Links
 
-[Maquette](https://www.figma.com/file/HKhFOC0CAeaGgnNb7u39px/Untitled?node-id=0%3A1&t=wCPkybdjuJ9RnfJx-1)
+[Wireframe](https://www.figma.com/file/HKhFOC0CAeaGgnNb7u39px/Untitled?node-id=0%3A1&t=wCPkybdjuJ9RnfJx-1)
